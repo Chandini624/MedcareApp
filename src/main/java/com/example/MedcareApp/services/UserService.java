@@ -1,13 +1,11 @@
 package com.example.MedcareApp.services;
 
-
 import com.example.MedcareApp.Entity.user;
 import com.example.MedcareApp.Interafce.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -23,28 +21,34 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<user> getUserById(String userId) {
-        return userRepository.findById(userId);
+    public List<user> findByUserId(String userId) {
+        return userRepository.findByUserId(userId);
     }
 
     public user updateUser(String userId, user updatedUser) {
-        return userRepository.findById(userId).map(existingUser -> {
+        List<user> existingUsers = userRepository.findByUserId(userId);
+
+        if (!existingUsers.isEmpty()) {
+            user existingUser = existingUsers.get(0);  // Use the first match
             existingUser.setPassword(updatedUser.getPassword());
             existingUser.setEmailId(updatedUser.getEmailId());
             existingUser.setMobileNo(updatedUser.getMobileNo());
             return userRepository.save(existingUser);
-        }).orElse(null);
+        } else {
+            // Create new user if none found
+            updatedUser.setUserId(userId);
+            return userRepository.save(updatedUser);
+        }
     }
 
-    public boolean deleteUser(String userId) {
-        if (userRepository.existsById(userId)) {
-            userRepository.deleteById(userId);
-            return true;
-        }
-        return false;
-    }
-    // ✅ This method supports login by email lookup
     public user getUserByEmail(String emailId) {
         return userRepository.findByEmailId(emailId);
     }
+    public void deleteUser(String userId) {
+        userRepository.deleteByUserid(userId);
+
+
+
+    }
 }
+

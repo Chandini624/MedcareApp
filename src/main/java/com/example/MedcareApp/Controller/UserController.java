@@ -24,7 +24,7 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<?> createUser(@RequestBody user newUser) {
 
-       var createdrecord= ResponseEntity.ok(userService.createUser(newUser));
+        var createdrecord = ResponseEntity.ok(userService.createUser(newUser));
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
         response.put("message", "Sign up successful!");
@@ -58,27 +58,35 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<user> getUserById(@PathVariable String id) {
-        return userService.getUserById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<user>> getUsersByUserId(@PathVariable String userId) {
+        List<user> users = userService.findByUserId(userId);
+        if (users.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<user> updateUser(@PathVariable String id, @RequestBody user updatedUser) {
-        user result = userService.updateUser(id, updatedUser);
+    @PutMapping("/{userId}")
+    public ResponseEntity<user> updateUser(@PathVariable String userId, @RequestBody user updatedUser) {
+        user result = userService.updateUser(userId, updatedUser);
         if (result != null) {
             return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        if (userService.deleteUser(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable String userId) {
+
+         userService.deleteUser(userId); // This returns a user or null
+            return ResponseEntity.ok("user deleted");
+
     }
+
 }
+
+
+
+
