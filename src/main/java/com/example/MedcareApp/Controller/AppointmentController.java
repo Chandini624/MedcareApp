@@ -4,9 +4,13 @@ package com.example.MedcareApp.Controller;
 import com.example.MedcareApp.Entity.Appointment;
 import com.example.MedcareApp.Interafce.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*") // Allow CORS for frontend
 @RestController
@@ -24,11 +28,30 @@ public class AppointmentController {
     public List<Appointment> getAllAppointments() {
         return repository.findAll();
     }
-   /* @PatchMapping("/{id}")
-    public Appointment updateStatus(@PathVariable String id, @RequestBody Map<String, String> payload) {
-        Appointment appt = repository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        appt.setStatus(payload.get("status"));
-        return repository.save(appt);
-    }*/
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> updateAppointmentStatus(
+            @PathVariable String id,
+            @RequestBody Map<String, String> updates
+    ) {
+        Optional<Appointment> optionalAppointment = repository.findById(id);
+
+        if (optionalAppointment.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("message", "Appointment not found"));
+        }
+
+        Appointment appointment = optionalAppointment.get();
+        String newStatus = updates.get("status");  // We expect the field name to be 'status'
+
+        if (newStatus != null) {
+            appointment.setAppointmentStatus(newStatus); // Ensure this matches your field name in Appointment entity
+            repository.save(appointment);
+            return ResponseEntity.ok(Map.of("message", "Status updated", "status", newStatus));
+        }
+
+        return ResponseEntity.badRequest()
+                .body(Map.of("message", "Missing 'status' in request body"));
+    }
+
 }

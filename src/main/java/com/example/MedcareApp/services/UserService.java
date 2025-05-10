@@ -35,7 +35,6 @@ public class UserService {
             existingUser.setMobileNo(updatedUser.getMobileNo());
             return userRepository.save(existingUser);
         } else {
-            // Create new user if none found
             updatedUser.setUserId(userId);
             return userRepository.save(updatedUser);
         }

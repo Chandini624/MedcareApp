@@ -1,64 +1,23 @@
 package com.example.MedcareApp.Entity;
 
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+@Data
+@Document(collection = "doctors")
 public class Doctor {
 
-    private int doctorId;
+    @Id
+    private String id;
+    private String doctorName;
     private String doctorSpecialistName;
-    private String doctorAvailabletime;
-    private String doctorslot;
-    private String doctorfee;
+    private String doctorMobileNo;
+    private String doctorDestination;
+    private List<String> doctorAvailabletime;  // Store slots as a list of strings
+    private int doctorslot;  // Number of slots
+    private double doctorfee;
 
-    // No-argument constructor
-    public Doctor() {
-    }
 
-    // All-argument constructor (matches usage in controller)
-    public Doctor(int doctorId, String doctorSpecialistName, String doctorAvailabletime, String doctorslot, String doctorfee) {
-        this.doctorId = doctorId;
-        this.doctorSpecialistName = doctorSpecialistName;
-        this.doctorAvailabletime = doctorAvailabletime;
-        this.doctorslot = doctorslot;
-        this.doctorfee = doctorfee;
-    }
-
-    // Getters and setters
-    public int getDoctorId() {
-        return doctorId;
-    }
-
-    public void setDoctorId(int doctorId) {
-        this.doctorId = doctorId;
-    }
-
-    public String getDoctorSpecialistName() {
-        return doctorSpecialistName;
-    }
-
-    public void setDoctorSpecialistName(String doctorSpecialistName) {
-        this.doctorSpecialistName = doctorSpecialistName;
-    }
-
-    public String getDoctorAvailabletime() {
-        return doctorAvailabletime;
-    }
-
-    public void setDoctorAvailabletime(String doctorAvailabletime) {
-        this.doctorAvailabletime = doctorAvailabletime;
-    }
-
-    public String getDoctorslot() {
-        return doctorslot;
-    }
-
-    public void setDoctorslot(String doctorslot) {
-        this.doctorslot = doctorslot;
-    }
-
-    public String getDoctorfee() {
-        return doctorfee;
-    }
-
-    public void setDoctorfee(String doctorfee) {
-        this.doctorfee = doctorfee;
-    }
 }

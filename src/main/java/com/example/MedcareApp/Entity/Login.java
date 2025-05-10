@@ -6,7 +6,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.Objects;
 
 @Document(collection = "database_sequences")
-public class Login {
+public class
+Login {
 
    private String userName;
    private String password;

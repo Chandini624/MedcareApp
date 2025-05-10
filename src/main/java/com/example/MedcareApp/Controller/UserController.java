@@ -76,15 +76,14 @@ public class UserController {
         }
         return ResponseEntity.notFound().build();
     }
-
     @DeleteMapping("/{userId}")
     public ResponseEntity<?> deleteUser(@PathVariable String userId) {
-
-         userService.deleteUser(userId); // This returns a user or null
-            return ResponseEntity.ok("user deleted");
-
+        userService.deleteUser(userId);
+        return ResponseEntity.ok(Map.of(
+                "success", true,
+                "message", "User deleted successfully"
+        ));
     }
-
 }
 
 
