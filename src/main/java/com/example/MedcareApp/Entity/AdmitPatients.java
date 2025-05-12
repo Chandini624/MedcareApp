@@ -1,6 +1,10 @@
 package com.example.MedcareApp.Entity;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.Objects;
-public class Patient {
+
+@Document(collection = "AdmidtPatients")
+public class AdmitPatients {
     private String patientId;
     private String patientName;
     private String patientEmailId;
@@ -14,7 +18,7 @@ public class Patient {
     private String patientNurseassign;
 
 
-    public Patient(String patientAddress, String patientAdmitdate, String patientAppointmentdate, String patientDischargedate, String patientEmailId, String patientId, String patientmobileNo, String patientName, String patientNurseassign, String patientPrescription, String patientWardnum) {
+    public AdmitPatients(String patientAddress, String patientAdmitdate, String patientAppointmentdate, String patientDischargedate, String patientEmailId, String patientId, String patientmobileNo, String patientName, String patientNurseassign, String patientPrescription, String patientWardnum) {
         this.patientAddress = patientAddress;
         this.patientAdmitdate = patientAdmitdate;
         this.patientAppointmentdate = patientAppointmentdate;
@@ -28,9 +32,9 @@ public class Patient {
         this.patientWardnum = patientWardnum;
     }
 
-    public Patient()
+    public AdmitPatients()
     {
-     }
+    }
 
     public void setPatientAddress(String patientAddress) {
         this.patientAddress = patientAddress;
@@ -123,7 +127,7 @@ public class Patient {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Patient patient = (Patient) o;
+        AdmitPatients patient = (AdmitPatients) o;
         return Objects.equals(patientId, patient.patientId) && Objects.equals(patientName, patient.patientName) && Objects.equals(patientEmailId, patient.patientEmailId) && Objects.equals(patientmobileNo, patient.patientmobileNo) && Objects.equals(patientAddress, patient.patientAddress) && Objects.equals(patientPrescription, patient.patientPrescription) && Objects.equals(patientAppointmentdate, patient.patientAppointmentdate) && Objects.equals(patientAdmitdate, patient.patientAdmitdate) && Objects.equals(patientWardnum, patient.patientWardnum) && Objects.equals(patientDischargedate, patient.patientDischargedate) && Objects.equals(patientNurseassign, patient.patientNurseassign);
     }
 
